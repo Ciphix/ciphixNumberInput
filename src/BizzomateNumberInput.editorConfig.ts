@@ -1,36 +1,15 @@
 import { BizzomateNumberInputPreviewProps } from "../typings/BizzomateNumberInputProps";
+import { Properties, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 
 export type Platform = "web" | "desktop";
 
-export type Properties = PropertyGroup[];
-
-type PropertyGroup = {
-    caption: string;
-    propertyGroups?: PropertyGroup[];
-    properties?: Property[];
-};
-
-type Property = {
-    key: string;
-    caption: string;
-    description?: string;
-    objectHeaders?: string[]; // used for customizing object grids
-    objects?: ObjectProperties[];
-    properties?: Properties[];
-};
-
-type ObjectProperties = {
-    properties: PropertyGroup[];
-    captions?: string[]; // used for customizing object grids
-};
-
 export type Problem = {
-    property?: string; // key of the property, at which the problem exists
-    severity?: "error" | "warning" | "deprecation"; // default = "error"
-    message: string; // description of the problem
-    studioMessage?: string; // studio-specific message, defaults to message
-    url?: string; // link with more information about the problem
-    studioUrl?: string; // studio-specific link
+    property?: string;
+    severity?: "error" | "warning" | "deprecation";
+    message: string;
+    studioMessage?: string;
+    url?: string;
+    studioUrl?: string;
 };
 
 type BaseProps = {
@@ -99,33 +78,64 @@ export type PreviewProps =
     | SelectableProps
     | DatasourceProps;
 
-export function getProperties(
-    _values: BizzomateNumberInputPreviewProps,
-    defaultProperties: Properties /* , target: Platform*/
-): Properties {
-    // Do the values manipulation here to control the visibility of properties in Studio and Studio Pro conditionally.
-    /* Example
-    if (values.myProperty === "custom") {
-        delete defaultProperties.properties.myOtherProperty;
+export function getProperties(values: BizzomateNumberInputPreviewProps, defaultProperties: Properties): Properties {
+    if (values.inputType === "string") {
+        hidePropertiesIn(defaultProperties, values, ["decimalInput", "integerInput"]);
+    } else if (values.inputType === "decimal") {
+        hidePropertiesIn(defaultProperties, values, ["stringInput", "integerInput"]);
+        if (values.decimalMode === "auto") {
+            hidePropertyIn(defaultProperties, values, "decimalPrecision");
+        }
+    } else if (values.inputType === "integer") {
+        hidePropertiesIn(defaultProperties, values, [
+            "decimalInput",
+            "stringInput",
+            "decimalPrecision",
+            "decimalSeparator",
+            "decimalMode",
+            "allowedDecimalSeparators"
+        ]);
     }
-    */
+    if (!values.groupDigits) {
+        hidePropertyIn(defaultProperties, values, "thousandSeparator");
+    }
+    if (values.onChangeBehaviour !== "during") {
+        hidePropertyIn(defaultProperties, values, "onChangeAfter");
+    }
     return defaultProperties;
 }
 
-// export function check(_values: BizzomateNumberInputPreviewProps): Problem[] {
-//     const errors: Problem[] = [];
-//     // Add errors to the above array to throw errors in Studio and Studio Pro.
-//     /* Example
-//     if (values.myProperty !== "custom") {
-//         errors.push({
-//             property: `myProperty`,
-//             message: `The value of 'myProperty' is different of 'custom'.`,
-//             url: "https://github.com/myrepo/mywidget"
-//         });
-//     }
-//     */
-//     return errors;
-// }
+/*
+ export function check(values: BizzomateNumberInputPreviewProps): Problem[] {
+     const errors: Problem[] = [];
+     // Add errors to the above array to throw errors in Studio and Studio Pro.
+     
+    if (values.groupDigits && !values.thousandSeparator){
+        errors.push({
+            property: "thousandSeparator",
+            message: "Please define the separator"
+        });
+    }
+
+    if (values.inputType !== 'integer') {
+        if (!values.decimalSeparator){
+            errors.push({
+                property: "decimalSeparator",
+                message: "Please define the separator"
+            });
+        }
+        if (values.decimalMode === "fixed" && !values.decimalPrecision) {
+            errors.push({
+                property: "decimalPrecision",
+                message: "Please define the precision"
+            });
+        }
+    }
+
+    
+     
+     return errors;
+ }*/
 
 export function getPreview(values: BizzomateNumberInputPreviewProps): PreviewProps {
     // Customize your pluggable widget appearance for Studio Pro.
@@ -154,7 +164,14 @@ export function getPreview(values: BizzomateNumberInputPreviewProps): PreviewPro
                                 type: "Text",
                                 fontColor: "#6DB1FE",
                                 fontSize: 8,
-                                content: "[" + values.numberInput + "]"
+                                content:
+                                    "[" +
+                                    (values.inputType === "decimal"
+                                        ? values.decimalInput
+                                        : values.inputType === "integer"
+                                        ? values.integerInput
+                                        : values.stringInput) +
+                                    "]"
                             }
                         ]
                     },

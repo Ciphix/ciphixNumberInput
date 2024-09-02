@@ -7,7 +7,15 @@ export function preview(props: BizzomateNumberInputPreviewProps): ReactElement {
     if (props.prefix) {
         valueString = valueString + props.prefix + " ";
     }
-    valueString = valueString + "[" + props.numberInput + "]";
+    valueString =
+        valueString +
+        "[" +
+        (props.inputType === "decimal"
+            ? props.decimalInput
+            : props.inputType === "integer"
+            ? props.integerInput
+            : props.stringInput) +
+        "]";
     if (props.suffix) {
         valueString = valueString + " " + props.suffix;
     }

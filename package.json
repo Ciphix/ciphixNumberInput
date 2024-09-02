@@ -2,7 +2,7 @@
   "name": "bizzomatenumberinput",
   "widgetName": "BizzomateNumberInput",
   "version": "1.0.0",
-  "description": "My widget description",
+  "description": "Pluggable Mendix Widget based on the react-number-format library. Provides a more user-friendly and customizable input for numeric data.",
   "copyright": "© Bizzomate BV 2024",
   "author": "Jelle Dekker",
   "engines": {
@@ -10,7 +10,7 @@
   },
   "license": "Apache-2.0",
   "config": {
-    "projectPath": "./tests/testProject",
+    "projectPath": "C:/Mendix/Bizzomate App Foundation-main",
     "mendixHost": "http://localhost:8080",
     "developmentPort": 3000
   },
@@ -25,20 +25,27 @@
     "release": "pluggable-widgets-tools release:web"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^10.5.0",
-    "@types/big.js": "^6.0.2",
-    "react-number-format": "^5.3.4"
+    "@mendix/pluggable-widgets-tools": "10.12.1",
+    "@types/big.js": "6.0.2",
+    "react-number-format": "5.4.1",
+    "tslib": "^2.7.0"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
-    "react-number-format": "^5.3.4"
+    "classnames": "^2.3.0",
+    "react-number-format": "5.4.1"
   },
   "resolutions": {
     "react": "18.2.0",
-    "react-native": "0.70.7"
+    "react-native": "0.72.7",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   },
   "overrides": {
     "react": "18.2.0",
-    "react-native": "0.70.7"
+    "react-native": "0.72.7",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0"
   }
 }

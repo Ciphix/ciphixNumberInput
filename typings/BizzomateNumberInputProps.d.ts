@@ -8,9 +8,13 @@ import { Big } from "big.js";
 
 export type InputTypeEnum = "decimal" | "integer" | "string";
 
+export type DecimalModeEnum = "fixed" | "auto";
+
 export interface AllowedDecimalSeparatorsType {
     allowedDecimalSeparator: string;
 }
+
+export type OnChangeBehaviourEnum = "after" | "during";
 
 export interface AllowedDecimalSeparatorsPreviewType {
     allowedDecimalSeparator: string;
@@ -20,30 +24,45 @@ export interface BizzomateNumberInputContainerProps {
     name: string;
     tabIndex?: number;
     id: string;
-    numberInput: EditableValue<Big | string>;
     inputType: InputTypeEnum;
+    integerInput: EditableValue<Big>;
+    decimalInput: EditableValue<Big>;
+    stringInput: EditableValue<string>;
     placeholder?: DynamicValue<string>;
-    fixedDecimal: boolean;
-    decimalScale: number;
-    decimalSeparator?: DynamicValue<string>;
-    allowedDecimalSeparators: AllowedDecimalSeparatorsType[];
-    thousandSeparator?: DynamicValue<string>;
     prefix?: DynamicValue<string>;
     suffix?: DynamicValue<string>;
+    decimalMode: DecimalModeEnum;
+    decimalPrecision: number;
+    decimalSeparator: DynamicValue<string>;
+    allowedDecimalSeparators: AllowedDecimalSeparatorsType[];
+    groupDigits: boolean;
+    thousandSeparator: DynamicValue<string>;
     onChangeAction?: ActionValue;
+    onFocusAction?: ActionValue;
+    onBlurAction?: ActionValue;
+    onChangeBehaviour: OnChangeBehaviourEnum;
+    onChangeAfter: number;
 }
 
 export interface BizzomateNumberInputPreviewProps {
     readOnly: boolean;
-    numberInput: string;
+    renderMode?: "design" | "xray" | "structure";
     inputType: InputTypeEnum;
+    integerInput: string;
+    decimalInput: string;
+    stringInput: string;
     placeholder: string;
-    fixedDecimal: boolean;
-    decimalScale: number | null;
-    decimalSeparator: string;
-    allowedDecimalSeparators: AllowedDecimalSeparatorsPreviewType[];
-    thousandSeparator: string;
     prefix: string;
     suffix: string;
+    decimalMode: DecimalModeEnum;
+    decimalPrecision: number | null;
+    decimalSeparator: string;
+    allowedDecimalSeparators: AllowedDecimalSeparatorsPreviewType[];
+    groupDigits: boolean;
+    thousandSeparator: string;
     onChangeAction: {} | null;
+    onFocusAction: {} | null;
+    onBlurAction: {} | null;
+    onChangeBehaviour: OnChangeBehaviourEnum;
+    onChangeAfter: number | null;
 }
