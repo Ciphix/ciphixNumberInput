@@ -71,8 +71,10 @@ export function BizzomateNumberInput({
 }: BizzomateNumberInputContainerProps): ReactElement {
     const [numberValue, setNumberValue] = useState<string | number | undefined>();
     const storedValue = useRef<string | Big | undefined>();
+    const isChanged = useRef<boolean>(false);
     const [timeOutId, setTimeOutId] = useState<number | undefined>();
     const [placeholderValue, setPlaceholderValue] = useState<string | undefined>();
+    const [decimalScale, setDecimalScale] = useState<number | undefined>();
     const [decimalSeparatorValue, setDecimalSeparatorValue] = useState<string | undefined>();
     const [thousandSeparatorValue, setThousandSeparatorValue] = useState<string | undefined>();
     const [prefixValue, setPrefixValue] = useState<string | undefined>();
@@ -97,14 +99,23 @@ export function BizzomateNumberInput({
         }
     }, [placeholder?.value]);
 
+    // DecimalScale
+    useEffect(() => {
+        if (inputType !== "integer" && decimalMode === "fixed" && decimalPrecision) {
+            setDecimalScale(decimalPrecision);
+        } else {
+            setDecimalScale(undefined);
+        }
+    }, [inputType, decimalMode, decimalPrecision]);
+
     // Get the decimal separator
     useEffect(() => {
-        if (decimalSeparator?.value) {
+        if (decimalSeparator?.value && inputType !== "integer") {
             setDecimalSeparatorValue(decimalSeparator.value);
         } else {
             setDecimalSeparatorValue(undefined);
         }
-    }, [decimalSeparator?.value]);
+    }, [inputType, decimalSeparator?.value]);
 
     // Get the thousands separator
     useEffect(() => {
@@ -145,6 +156,7 @@ export function BizzomateNumberInput({
         }
 
         storedValue.current = getResult(values, inputType);
+        isChanged.current = true;
 
         if (onChangeBehaviour === "during") {
             clearTimeout(timeOutId);
@@ -155,11 +167,12 @@ export function BizzomateNumberInput({
     // Process changed values to Mendix
     const processChange = (): void => {
         numberInput.setValue(storedValue.current);
+        isChanged.current = false;
 
         if (onChangeAction && onChangeAction.canExecute && !onChangeAction.isExecuting) {
             onChangeAction.execute();
         }
-    }
+    };
 
     // Handle focus / on enter event
     const handleFocus = (): void => {
@@ -173,7 +186,7 @@ export function BizzomateNumberInput({
         if (onBlurAction && onBlurAction.canExecute && !onBlurAction.isExecuting) {
             onBlurAction.execute();
         }
-        if (onChangeBehaviour === "after" && storedValue.current?.toString() !== numberInput.value?.toString()) {
+        if (onChangeBehaviour === "after" && isChanged.current === true) {
             processChange();
         }
     };
@@ -188,9 +201,9 @@ export function BizzomateNumberInput({
                 onBlur={handleBlur}
                 className={readOnly ? "form-control-static" : "form-control"}
                 fixedDecimalScale={inputType !== "integer" ? decimalMode === "fixed" : undefined}
-                decimalScale={inputType !== "integer" && decimalMode === "fixed" ? decimalPrecision : undefined}
+                decimalScale={decimalScale}
                 placeholder={placeholderValue}
-                decimalSeparator={inputType !== "integer" ? decimalSeparatorValue : undefined}
+                decimalSeparator={decimalSeparatorValue}
                 allowedDecimalSeparators={
                     inputType !== "integer" && allowedDecimalSeparators
                         ? getSeparatorOptions(allowedDecimalSeparators)
