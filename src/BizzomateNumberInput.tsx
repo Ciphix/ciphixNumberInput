@@ -1,40 +1,19 @@
-import { ReactElement, createElement, useEffect, useState, useRef, Fragment } from "react";
+import { ReactElement, createElement, useState, useRef, Fragment } from "react";
 import { Big } from "big.js";
 import { NumberFormatValues, NumericFormat, SourceInfo } from "react-number-format";
-import {
-    AllowedDecimalSeparatorsType,
-    BizzomateNumberInputContainerProps,
-    InputTypeEnum
-} from "../typings/BizzomateNumberInputProps";
+import { BizzomateNumberInputContainerProps, InputTypeEnum } from "../typings/BizzomateNumberInputProps";
 import { Alert } from "./components/Alert";
-import { EditableValue } from "mendix";
-
+import useSettings from "./hooks/useSettings";
 import "./ui/BizzomateNumberInput.css";
 
-const getSeparatorOptions = (options: AllowedDecimalSeparatorsType[]): string[] => {
-    const separatorOptions: string[] = [];
-    options.forEach(option => {
-        separatorOptions.push(option.allowedDecimalSeparator);
-    });
-    return separatorOptions;
-};
-
-// Parse the Mendix attribute value to the correct value for the NumbericFormat input
-const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string | number => {
-    if (!input || !input.value) {
-        return ""; // Return an empty string instead of undefined because of a bug in NumbericFormat not re-rendering when value becomes empty
-    }
-
-    if (inputType === "string") {
-        return input.displayValue;
-    }
-
-    return Number(input.value);
-};
+interface inputRef {
+    isChanged: boolean;
+    newValue: string | Big | undefined;
+}
 
 // Parse the NumericFormat-value to the correct value for the selected Mendix attribute
 const getResult = (values: NumberFormatValues, inputType: InputTypeEnum): string | Big | undefined => {
-    if (!values.floatValue) {
+    if (values.floatValue === undefined) {
         return undefined;
     }
 
@@ -47,107 +26,24 @@ const getResult = (values: NumberFormatValues, inputType: InputTypeEnum): string
     }
 };
 
-export function BizzomateNumberInput({
-    decimalInput,
-    integerInput,
-    stringInput,
-    inputType,
-    placeholder,
-    decimalMode,
-    decimalPrecision,
-    decimalSeparator,
-    allowedDecimalSeparators,
-    groupDigits,
-    thousandSeparator,
-    prefix,
-    suffix,
-    id,
-    tabIndex,
-    onChangeAction,
-    onBlurAction,
-    onFocusAction,
-    onChangeBehaviour,
-    onChangeAfter
-}: BizzomateNumberInputContainerProps): ReactElement {
-    const [numberValue, setNumberValue] = useState<string | number | undefined>();
-    const storedValue = useRef<string | Big | undefined>();
-    const isChanged = useRef<boolean>(false);
+export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps): ReactElement {
+    const widgetRef = useRef<inputRef>({ isChanged: false, newValue: undefined });
     const [timeOutId, setTimeOutId] = useState<number | undefined>();
-    const [placeholderValue, setPlaceholderValue] = useState<string | undefined>();
-    const [decimalScale, setDecimalScale] = useState<number | undefined>();
-    const [decimalSeparatorValue, setDecimalSeparatorValue] = useState<string | undefined>();
-    const [thousandSeparatorValue, setThousandSeparatorValue] = useState<string | undefined>();
-    const [prefixValue, setPrefixValue] = useState<string | undefined>();
-    const [suffixValue, setSuffixValue] = useState<string | undefined>();
-    const [readOnly, setReadOnly] = useState<boolean>(false);
-
-    // Set numberInput based on selected inputType, allows us to continue with a single variable from here on instead of looking at string/integer/decimal-input
-    const numberInput: EditableValue =
-        inputType === "string" ? stringInput : inputType === "integer" ? integerInput : decimalInput;
-
-    // Set numberInput value
-    useEffect(() => {
-        setNumberValue(getNumberValue(numberInput, inputType));
-    }, [numberInput, numberInput?.value, inputType]);
-
-    // Get the placeholder
-    useEffect(() => {
-        if (placeholder?.value) {
-            setPlaceholderValue(placeholder.value);
-        } else {
-            setPlaceholderValue(undefined);
-        }
-    }, [placeholder?.value]);
-
-    // DecimalScale
-    useEffect(() => {
-        if (inputType !== "integer" && decimalMode === "fixed" && decimalPrecision) {
-            setDecimalScale(decimalPrecision);
-        } else {
-            setDecimalScale(undefined);
-        }
-    }, [inputType, decimalMode, decimalPrecision]);
-
-    // Get the decimal separator
-    useEffect(() => {
-        if (decimalSeparator?.value && inputType !== "integer") {
-            setDecimalSeparatorValue(decimalSeparator.value);
-        } else {
-            setDecimalSeparatorValue(undefined);
-        }
-    }, [inputType, decimalSeparator?.value]);
-
-    // Get the thousands separator
-    useEffect(() => {
-        if (thousandSeparator?.value) {
-            setThousandSeparatorValue(thousandSeparator.value);
-        } else {
-            setThousandSeparatorValue(undefined);
-        }
-    }, [thousandSeparator?.value]);
-
-    // Get the prefix
-    useEffect(() => {
-        if (prefix?.value) {
-            setPrefixValue(prefix.value);
-        } else {
-            setPrefixValue(undefined);
-        }
-    }, [prefix?.value]);
-
-    // Get the suffix
-    useEffect(() => {
-        if (suffix?.value) {
-            setSuffixValue(suffix.value);
-        } else {
-            setSuffixValue(undefined);
-        }
-    }, [suffix?.value]);
-
-    // Check if the item is editable
-    useEffect(() => {
-        setReadOnly(!!numberInput?.readOnly);
-    }, [numberInput?.readOnly]);
+    const {
+        numberInput,
+        numberValue,
+        placeholderValue,
+        fixedDecimalScale,
+        decimalScale,
+        decimalSeparatorValue,
+        allowedDecimalSeparators,
+        thousandSeparatorValue,
+        prefixValue,
+        suffixValue,
+        className,
+        displayType,
+        inputMode
+    } = useSettings(props);
 
     // Handle user changes to the numeric value
     const handleValueChange = (values: NumberFormatValues, sourceInfo: SourceInfo): void => {
@@ -155,38 +51,37 @@ export function BizzomateNumberInput({
             return;
         }
 
-        storedValue.current = getResult(values, inputType);
-        isChanged.current = true;
+        widgetRef.current = { isChanged: true, newValue: getResult(values, props.inputType) };
 
-        if (onChangeBehaviour === "during") {
+        if (props.onChangeBehaviour === "during") {
             clearTimeout(timeOutId);
-            setTimeOutId(Number(setTimeout(processChange, onChangeAfter)));
+            setTimeOutId(Number(setTimeout(processChange, props.onChangeAfter)));
         }
     };
 
     // Process changed values to Mendix
     const processChange = (): void => {
-        numberInput.setValue(storedValue.current);
-        isChanged.current = false;
+        numberInput.setValue(widgetRef.current.newValue);
+        widgetRef.current = { isChanged: false, newValue: undefined };
 
-        if (onChangeAction && onChangeAction.canExecute && !onChangeAction.isExecuting) {
-            onChangeAction.execute();
+        if (props.onChangeAction && props.onChangeAction.canExecute && !props.onChangeAction.isExecuting) {
+            props.onChangeAction.execute();
         }
     };
 
     // Handle focus / on enter event
     const handleFocus = (): void => {
-        if (onFocusAction && onFocusAction.canExecute && !onFocusAction.isExecuting) {
-            onFocusAction.execute();
+        if (props.onFocusAction && props.onFocusAction.canExecute && !props.onFocusAction.isExecuting) {
+            props.onFocusAction.execute();
         }
     };
 
     // Hande blur / on leave event
     const handleBlur = (): void => {
-        if (onBlurAction && onBlurAction.canExecute && !onBlurAction.isExecuting) {
-            onBlurAction.execute();
+        if (props.onBlurAction && props.onBlurAction.canExecute && !props.onBlurAction.isExecuting) {
+            props.onBlurAction.execute();
         }
-        if (onChangeBehaviour === "after" && isChanged.current === true) {
+        if (props.onChangeBehaviour === "after" && widgetRef.current.isChanged === true) {
             processChange();
         }
     };
@@ -197,25 +92,21 @@ export function BizzomateNumberInput({
             <NumericFormat
                 value={numberValue}
                 onValueChange={handleValueChange}
-                onFocus={onFocusAction ? handleFocus : undefined}
+                onFocus={props.onFocusAction ? handleFocus : undefined}
                 onBlur={handleBlur}
-                className={readOnly ? "form-control-static" : "form-control"}
-                fixedDecimalScale={inputType !== "integer" ? decimalMode === "fixed" : undefined}
+                className={className}
+                fixedDecimalScale={fixedDecimalScale}
                 decimalScale={decimalScale}
                 placeholder={placeholderValue}
                 decimalSeparator={decimalSeparatorValue}
-                allowedDecimalSeparators={
-                    inputType !== "integer" && allowedDecimalSeparators
-                        ? getSeparatorOptions(allowedDecimalSeparators)
-                        : undefined
-                }
-                thousandSeparator={groupDigits ? thousandSeparatorValue : undefined}
+                allowedDecimalSeparators={allowedDecimalSeparators}
+                thousandSeparator={props.groupDigits ? thousandSeparatorValue : undefined}
                 prefix={prefixValue}
                 suffix={suffixValue}
-                displayType={readOnly ? "text" : "input"}
-                id={id}
-                tabIndex={tabIndex}
-                inputMode={inputType === "integer" || decimalPrecision === 0 ? "numeric" : "decimal"}
+                displayType={displayType}
+                id={props.id}
+                tabIndex={props.tabIndex}
+                inputMode={inputMode}
             />
             <Alert>{numberInput?.validation}</Alert>
         </Fragment>
