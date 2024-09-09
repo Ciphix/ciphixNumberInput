@@ -17,21 +17,21 @@
                         <enumerationValue key="string">String</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="integerInput" type="attribute" setLabel="true">
+                <property key="integerInput" type="attribute">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
                         <attributeType name="Integer"/>
                     </attributeTypes>
                 </property>
-                <property key="decimalInput" type="attribute" setLabel="true">
+                <property key="decimalInput" type="attribute">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
                         <attributeType name="Decimal"/>
                     </attributeTypes>
                 </property>
-                <property key="stringInput" type="attribute" setLabel="true">
+                <property key="stringInput" type="attribute">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
