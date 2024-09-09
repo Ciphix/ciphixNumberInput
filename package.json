@@ -1,7 +1,7 @@
 {
   "name": "bizzomatenumberinput",
   "widgetName": "BizzomateNumberInput",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Pluggable Mendix Widget based on the react-number-format library. Provides a more user-friendly and customizable input for numeric data.",
   "copyright": "© Bizzomate BV 2024",
   "author": "Jelle Dekker",

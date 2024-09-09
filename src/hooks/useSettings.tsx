@@ -6,12 +6,7 @@ import {
     InputTypeEnum
 } from "../../typings/BizzomateNumberInputProps";
 
-import {
-    BizzomateNumberInputSettings,
-    classNameEnum,
-    displayTypeEnum,
-    inputModeEnum
-} from "../../typings/BizzomateNumberInputSettings";
+import { BizzomateNumberInputSettings, displayTypeEnum, inputModeEnum } from "../helpers/types";
 
 // Parse the Mendix attribute value to the correct value for the NumbericFormat input
 const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string | number => {
@@ -42,8 +37,9 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
     const [thousandSeparatorValue, setThousandSeparatorValue] = useState<string>();
     const [prefixValue, setPrefixValue] = useState<string>();
     const [suffixValue, setSuffixValue] = useState<string>();
-    const [className, setClassName] = useState<classNameEnum>();
+    const [className, setClassName] = useState<string>();
     const [displayType, setDisplayType] = useState<displayTypeEnum>();
+    const [disabled, setDisabled] = useState<boolean>();
 
     // Set numberInput based on selected inputType, allows us to continue with a single variable from here on instead of looking at string/integer/decimal-input
     const numberInput: EditableValue =
@@ -126,16 +122,22 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
         }
     }, [props.suffix?.value]);
 
-    // Check if the item is editable and set classes and displayType accordingly
+    // Check if the item is editable and set className and displayType accordingly
     useEffect(() => {
-        if (!numberInput?.readOnly) {
-            setClassName("form-control");
-            setDisplayType("input");
-        } else {
-            setClassName("form-control-static");
+        if (numberInput?.readOnly === true && props.readOnlyStle !== "control") {
+            setClassName("form-control-static widget-numberInput");
             setDisplayType("text");
+            setDisabled(undefined);
+        } else {
+            setClassName("form-control widget-numberInput");
+            setDisplayType("input");
+            if (numberInput?.readOnly === true) {
+                setDisabled(true);
+            } else {
+                setDisabled(undefined);
+            }
         }
-    }, [numberInput?.readOnly]);
+    }, [numberInput?.readOnly, props.readOnlyStle]);
 
     return {
         numberInput,
@@ -150,6 +152,7 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
         suffixValue,
         className,
         displayType,
-        inputMode
+        inputMode,
+        disabled
     };
 }

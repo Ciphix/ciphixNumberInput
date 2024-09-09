@@ -17,21 +17,21 @@
                         <enumerationValue key="string">String</enumerationValue>
                     </enumerationValues>
                 </property>
-                <property key="integerInput" type="attribute">
+                <property key="integerInput" type="attribute" setLabel="true">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
                         <attributeType name="Integer"/>
                     </attributeTypes>
                 </property>
-                <property key="decimalInput" type="attribute">
+                <property key="decimalInput" type="attribute" setLabel="true">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
                         <attributeType name="Decimal"/>
                     </attributeTypes>
                 </property>
-                <property key="stringInput" type="attribute">
+                <property key="stringInput" type="attribute" setLabel="true">
                     <caption>Attribute</caption>
                     <description/>
                     <attributeTypes>
@@ -57,6 +57,14 @@
 
             <propertyGroup caption="Editability">
                 <systemProperty key="Editability"/>
+                <property key="readOnlyStle" type="enumeration" defaultValue="text">
+                    <caption>Read-only style</caption>
+                    <description/>
+                    <enumerationValues>
+                        <enumerationValue key="control">Control</enumerationValue>
+                        <enumerationValue key="text">Content only</enumerationValue>
+                    </enumerationValues>
+                </property>
             </propertyGroup>
 
         </propertyGroup>

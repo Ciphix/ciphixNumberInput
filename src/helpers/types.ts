@@ -1,4 +1,5 @@
-export type classNameEnum = "form-control" | "form-control-static";
+import { EditableValue } from "mendix";
+
 export type displayTypeEnum = "input" | "text";
 export type inputModeEnum = "numeric" | "decimal";
 
@@ -13,7 +14,8 @@ export interface BizzomateNumberInputSettings {
     thousandSeparatorValue?: string;
     prefixValue?: string;
     suffixValue?: string;
-    className?: classNameEnum;
+    className?: string;
     displayType?: displayTypeEnum;
     inputMode?: inputModeEnum;
+    disabled?: boolean;
 }

@@ -8,6 +8,8 @@ import { Big } from "big.js";
 
 export type InputTypeEnum = "decimal" | "integer" | "string";
 
+export type ReadOnlyStleEnum = "control" | "text";
+
 export type DecimalModeEnum = "fixed" | "auto";
 
 export interface AllowedDecimalSeparatorsType {
@@ -29,6 +31,7 @@ export interface BizzomateNumberInputContainerProps {
     decimalInput: EditableValue<Big>;
     stringInput: EditableValue<string>;
     placeholder?: DynamicValue<string>;
+    readOnlyStle: ReadOnlyStleEnum;
     prefix?: DynamicValue<string>;
     suffix?: DynamicValue<string>;
     decimalMode: DecimalModeEnum;
@@ -52,6 +55,7 @@ export interface BizzomateNumberInputPreviewProps {
     decimalInput: string;
     stringInput: string;
     placeholder: string;
+    readOnlyStle: ReadOnlyStleEnum;
     prefix: string;
     suffix: string;
     decimalMode: DecimalModeEnum;

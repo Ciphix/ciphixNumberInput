@@ -4,7 +4,6 @@ import { NumberFormatValues, NumericFormat, SourceInfo } from "react-number-form
 import { BizzomateNumberInputContainerProps, InputTypeEnum } from "../typings/BizzomateNumberInputProps";
 import { Alert } from "./components/Alert";
 import useSettings from "./hooks/useSettings";
-import "./ui/BizzomateNumberInput.css";
 
 interface inputRef {
     isChanged: boolean;
@@ -42,7 +41,8 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
         suffixValue,
         className,
         displayType,
-        inputMode
+        inputMode,
+        disabled
     } = useSettings(props);
 
     // Handle user changes to the numeric value
@@ -100,13 +100,14 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
                 placeholder={placeholderValue}
                 decimalSeparator={decimalSeparatorValue}
                 allowedDecimalSeparators={allowedDecimalSeparators}
-                thousandSeparator={props.groupDigits ? thousandSeparatorValue : undefined}
+                thousandSeparator={thousandSeparatorValue}
                 prefix={prefixValue}
                 suffix={suffixValue}
                 displayType={displayType}
                 id={props.id}
                 tabIndex={props.tabIndex}
                 inputMode={inputMode}
+                disabled={disabled}
             />
             <Alert>{numberInput?.validation}</Alert>
         </Fragment>
