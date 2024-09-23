@@ -79,6 +79,10 @@
                     <caption>Suffix</caption>
                     <description></description>
                 </property>
+                <property key="customSeparators" type="boolean" defaultValue="false">
+                    <caption>Custom separators</caption>
+                    <description>Define decimal/thousand separator, instead of the Mendix language settings</description>
+                </property>
             </propertyGroup>
 
             <propertyGroup caption="Decimal">
@@ -102,7 +106,16 @@
                         <translation lang="nl_NL">,</translation>
                     </translations>
                 </property>
-                <property key="allowedDecimalSeparators" type="object" isList="true" required="false">
+                <property key="decimalSeparatorBehavior" type="enumeration" defaultValue="lax">
+                    <caption>Separator behavior</caption>
+                    <description>Convert input to correct decimal separator (lax/custom) or not (strict)</description>
+                    <enumerationValues>
+                        <enumerationValue key="strict">Strict</enumerationValue>
+                        <enumerationValue key="lax">Lax</enumerationValue>
+                        <enumerationValue key="custom">Custom</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="allowedDecimalSeparators" type="object" isList="true">
                     <caption>Allowed separators</caption>
                     <description/>
                     <properties>

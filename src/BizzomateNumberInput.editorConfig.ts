@@ -83,9 +83,6 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
         hidePropertiesIn(defaultProperties, values, ["decimalInput", "integerInput"]);
     } else if (values.inputType === "decimal") {
         hidePropertiesIn(defaultProperties, values, ["stringInput", "integerInput"]);
-        if (values.decimalMode === "auto") {
-            hidePropertyIn(defaultProperties, values, "decimalPrecision");
-        }
     } else if (values.inputType === "integer") {
         hidePropertiesIn(defaultProperties, values, [
             "decimalInput",
@@ -93,9 +90,24 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
             "decimalPrecision",
             "decimalSeparator",
             "decimalMode",
+            "decimalSeparatorBehavior",
             "allowedDecimalSeparators"
         ]);
+        
     }
+
+    if (values.decimalSeparatorBehavior !== "custom"){
+        hidePropertyIn(defaultProperties, values, "allowedDecimalSeparators");
+    }
+
+    if (!values.customSeparators) {
+        hidePropertiesIn(defaultProperties, values, ["decimalSeparator", "thousandSeparator"]);
+    }
+
+    if (values.decimalMode === "auto") {
+        hidePropertyIn(defaultProperties, values, "decimalPrecision");
+    }
+
     if (!values.groupDigits) {
         hidePropertyIn(defaultProperties, values, "thousandSeparator");
     }

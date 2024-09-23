@@ -19,3 +19,9 @@ export interface BizzomateNumberInputSettings {
     inputMode?: inputModeEnum;
     disabled?: boolean;
 }
+
+export interface sessionLocale {
+    decimalSeparator: string;
+    groupingSeparator: string;
+    minusSign: string;
+}

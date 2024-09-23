@@ -3,10 +3,11 @@ import { EditableValue } from "mendix";
 import {
     AllowedDecimalSeparatorsType,
     BizzomateNumberInputContainerProps,
+    DecimalSeparatorBehaviorEnum,
     InputTypeEnum
 } from "../../typings/BizzomateNumberInputProps";
 
-import { BizzomateNumberInputSettings, displayTypeEnum, inputModeEnum } from "../helpers/types";
+import { BizzomateNumberInputSettings, displayTypeEnum, inputModeEnum, sessionLocale } from "../helpers/types";
 
 // Parse the Mendix attribute value to the correct value for the NumbericFormat input
 const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string | number => {
@@ -21,12 +22,40 @@ const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string 
     return Number(input.value);
 };
 
-const getSeparatorOptions = (options: AllowedDecimalSeparatorsType[]): string[] => {
+const getSeparatorOptions = (behavior: DecimalSeparatorBehaviorEnum, options: AllowedDecimalSeparatorsType[]): string[] => {
     const separatorOptions: string[] = [];
-    options.forEach(option => {
-        separatorOptions.push(option.allowedDecimalSeparator);
-    });
+    if (behavior === "custom") {
+        options.forEach(option => {
+            separatorOptions.push(option.allowedDecimalSeparator);
+        });
+    } else if (behavior === "lax"){
+        separatorOptions.push(",");
+        separatorOptions.push(".");
+    }
     return separatorOptions;
+};
+
+const getMxSessionLocale = (): sessionLocale => {
+    // @ts-ignore
+    return mx.session.sessionData.locale.numbers;
+};
+
+const getDecimalSeparator = (useCustomSeparators: boolean, decimalSeparatorValue: string | undefined): string => {
+    if (useCustomSeparators && decimalSeparatorValue) {
+        return decimalSeparatorValue;
+    } else {
+        const sessionLocale: sessionLocale = getMxSessionLocale();
+        return sessionLocale.decimalSeparator ? sessionLocale.decimalSeparator : ".";
+    }
+};
+
+const getGroupingSeparator = (useCustomSeparators: boolean, thousandSeparatorValue: string | undefined): string => {
+    if (useCustomSeparators && thousandSeparatorValue) {
+        return thousandSeparatorValue;
+    } else {
+        const sessionLocale: sessionLocale = getMxSessionLocale();
+        return sessionLocale.groupingSeparator ? sessionLocale.groupingSeparator : ",";
+    }
 };
 
 export default function useSettings(props: BizzomateNumberInputContainerProps): BizzomateNumberInputSettings {
@@ -51,8 +80,8 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
 
     // Set the list of allowed decimal separators, when applicable
     const allowedDecimalSeparators: string[] | undefined =
-        props.inputType !== "integer" && props.allowedDecimalSeparators
-            ? getSeparatorOptions(props.allowedDecimalSeparators)
+        props.inputType !== "integer" && props.decimalSeparatorBehavior !== "strict"
+            ? getSeparatorOptions(props.decimalSeparatorBehavior, props.allowedDecimalSeparators)
             : undefined;
 
     // Set fixed decimal scale true/false based on inputType and decimalMode
@@ -88,21 +117,17 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
 
     // Get the decimal separator
     useEffect(() => {
-        if (props.decimalSeparator?.value && props.inputType !== "integer") {
-            setDecimalSeparatorValue(props.decimalSeparator.value);
+        if (props.inputType !== "integer") {
+            setDecimalSeparatorValue(getDecimalSeparator(props.customSeparators, props.decimalSeparator?.value));
         } else {
             setDecimalSeparatorValue(undefined);
         }
-    }, [props.inputType, props.decimalSeparator?.value]);
+    }, [props.inputType, props.customSeparators, props.decimalSeparator?.value]);
 
     // Get the thousands separator
     useEffect(() => {
-        if (props.thousandSeparator?.value) {
-            setThousandSeparatorValue(props.thousandSeparator.value);
-        } else {
-            setThousandSeparatorValue(undefined);
-        }
-    }, [props.thousandSeparator?.value]);
+        setThousandSeparatorValue(getGroupingSeparator(props.customSeparators, props.thousandSeparator?.value));
+    }, [props.customSeparators, props.thousandSeparator?.value]);
 
     // Get the prefix
     useEffect(() => {

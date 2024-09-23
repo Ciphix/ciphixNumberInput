@@ -12,6 +12,8 @@ export type ReadOnlyStleEnum = "control" | "text";
 
 export type DecimalModeEnum = "fixed" | "auto";
 
+export type DecimalSeparatorBehaviorEnum = "strict" | "lax" | "custom";
+
 export interface AllowedDecimalSeparatorsType {
     allowedDecimalSeparator: string;
 }
@@ -34,9 +36,11 @@ export interface BizzomateNumberInputContainerProps {
     readOnlyStle: ReadOnlyStleEnum;
     prefix?: DynamicValue<string>;
     suffix?: DynamicValue<string>;
+    customSeparators: boolean;
     decimalMode: DecimalModeEnum;
     decimalPrecision: number;
     decimalSeparator: DynamicValue<string>;
+    decimalSeparatorBehavior: DecimalSeparatorBehaviorEnum;
     allowedDecimalSeparators: AllowedDecimalSeparatorsType[];
     groupDigits: boolean;
     thousandSeparator: DynamicValue<string>;
@@ -58,9 +62,11 @@ export interface BizzomateNumberInputPreviewProps {
     readOnlyStle: ReadOnlyStleEnum;
     prefix: string;
     suffix: string;
+    customSeparators: boolean;
     decimalMode: DecimalModeEnum;
     decimalPrecision: number | null;
     decimalSeparator: string;
+    decimalSeparatorBehavior: DecimalSeparatorBehaviorEnum;
     allowedDecimalSeparators: AllowedDecimalSeparatorsPreviewType[];
     groupDigits: boolean;
     thousandSeparator: string;
