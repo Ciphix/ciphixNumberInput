@@ -11,6 +11,8 @@ Pluggable Mendix Widget based on the react-number-format library. Provides a mor
 * Select this widget instead of the Text Box in Studio Pro
 * Select input type (decimal/integer/string) and attribute
 * Go to the "Formatting"-tab for all extra options
+* Set "Custom separator" to true and "Decimal separator behavior" to "custom" for full-control
+* Or let the widget use the Mendix language settings and allow both "," and "." from the user as input
 
 ## Issues, suggestions and feature requests
 [\[link to GitHub issues\]](https://github.com/bizzomate/bizzomateNumberInput/issues)
