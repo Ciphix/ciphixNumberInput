@@ -93,10 +93,9 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
             "decimalSeparatorBehavior",
             "allowedDecimalSeparators"
         ]);
-        
     }
 
-    if (values.decimalSeparatorBehavior !== "custom"){
+    if (values.decimalSeparatorBehavior !== "custom") {
         hidePropertyIn(defaultProperties, values, "allowedDecimalSeparators");
     }
 

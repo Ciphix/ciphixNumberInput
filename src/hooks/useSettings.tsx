@@ -22,13 +22,16 @@ const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string 
     return Number(input.value);
 };
 
-const getSeparatorOptions = (behavior: DecimalSeparatorBehaviorEnum, options: AllowedDecimalSeparatorsType[]): string[] => {
+const getSeparatorOptions = (
+    behavior: DecimalSeparatorBehaviorEnum,
+    options: AllowedDecimalSeparatorsType[]
+): string[] => {
     const separatorOptions: string[] = [];
     if (behavior === "custom") {
         options.forEach(option => {
             separatorOptions.push(option.allowedDecimalSeparator);
         });
-    } else if (behavior === "lax"){
+    } else if (behavior === "lax") {
         separatorOptions.push(",");
         separatorOptions.push(".");
     }
@@ -108,7 +111,9 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
 
     // DecimalScale
     useEffect(() => {
-        if (props.inputType !== "integer" && props.decimalMode === "fixed" && props.decimalPrecision) {
+        if (props.inputType === "integer") {
+            setDecimalScale(0);
+        } else if (props.decimalMode === "fixed" && props.decimalPrecision) {
             setDecimalScale(props.decimalPrecision);
         } else {
             setDecimalScale(undefined);
@@ -117,12 +122,8 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
 
     // Get the decimal separator
     useEffect(() => {
-        if (props.inputType !== "integer") {
-            setDecimalSeparatorValue(getDecimalSeparator(props.customSeparators, props.decimalSeparator?.value));
-        } else {
-            setDecimalSeparatorValue(undefined);
-        }
-    }, [props.inputType, props.customSeparators, props.decimalSeparator?.value]);
+        setDecimalSeparatorValue(getDecimalSeparator(props.customSeparators, props.decimalSeparator?.value));
+    }, [props.customSeparators, props.decimalSeparator?.value]);
 
     // Get the thousands separator
     useEffect(() => {
