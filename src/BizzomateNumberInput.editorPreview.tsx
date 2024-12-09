@@ -20,7 +20,11 @@ export function preview(props: BizzomateNumberInputPreviewProps): ReactElement {
         valueString = valueString + " " + props.suffix;
     }
 
-    return <input value={valueString} className="form-control" readOnly={props.readOnly} />;
+    return props.readOnly && props.readOnlyStle === "text" ? (
+        <span className={"form-control"}>{valueString}</span>
+    ) : (
+        <input value={valueString} className="form-control" readOnly={props.readOnly} />
+    );
 }
 
 export function getPreviewCss(): string {

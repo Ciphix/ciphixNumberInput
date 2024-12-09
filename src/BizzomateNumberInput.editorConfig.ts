@@ -148,13 +148,13 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
      return errors;
  }*/
 
-export function getPreview(values: BizzomateNumberInputPreviewProps): PreviewProps {
+export function getPreview(values: BizzomateNumberInputPreviewProps, isDarkMode: boolean): PreviewProps {
     // Customize your pluggable widget appearance for Studio Pro.
     return {
         type: "Container",
         borders: true,
         borderRadius: 2,
-        backgroundColor: values.readOnly ? "#646464" : undefined,
+        backgroundColor: values.readOnly ? (isDarkMode ? "#646464" : "#c1c3c8") : isDarkMode ? "#313131" : "#ffffff",
         children: [
             {
                 type: "RowLayout",
@@ -173,7 +173,7 @@ export function getPreview(values: BizzomateNumberInputPreviewProps): PreviewPro
                         children: [
                             {
                                 type: "Text",
-                                fontColor: "#6DB1FE",
+                                fontColor: isDarkMode ? "#6DB1FE" : "#146ff4",
                                 fontSize: 8,
                                 content:
                                     "[" +
