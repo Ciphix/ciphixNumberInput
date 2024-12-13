@@ -1,4 +1,4 @@
-import { ReactElement, createElement, useState, useRef, Fragment } from "react";
+import { ReactElement, createElement, useState, useRef, Fragment, KeyboardEvent } from "react";
 import { Big } from "big.js";
 import { NumberFormatValues, NumericFormat, SourceInfo } from "react-number-format";
 import { BizzomateNumberInputContainerProps, InputTypeEnum } from "../typings/BizzomateNumberInputProps";
@@ -86,6 +86,18 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
         }
     };
 
+    // Handle onKeyDown for enter key
+    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
+        if (
+            e.key === "Enter" &&
+            props.onEnterKeyAction &&
+            props.onEnterKeyAction.canExecute &&
+            !props.onEnterKeyAction.isExecuting
+        ) {
+            props.onEnterKeyAction.execute();
+        }
+    };
+
     // Render the NumericFormat input widget
     return (
         <Fragment>
@@ -93,6 +105,7 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
                 value={numberValue}
                 onValueChange={handleValueChange}
                 onFocus={props.onFocusAction ? handleFocus : undefined}
+                onKeyDown={props.onEnterKeyAction ? handleOnKeyDown : undefined}
                 onBlur={handleBlur}
                 className={className}
                 fixedDecimalScale={fixedDecimalScale}

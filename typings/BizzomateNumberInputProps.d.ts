@@ -47,6 +47,7 @@ export interface BizzomateNumberInputContainerProps {
     onChangeAction?: ActionValue;
     onFocusAction?: ActionValue;
     onBlurAction?: ActionValue;
+    onEnterKeyAction?: ActionValue;
     onChangeBehaviour: OnChangeBehaviourEnum;
     onChangeAfter: number;
 }
@@ -73,6 +74,7 @@ export interface BizzomateNumberInputPreviewProps {
     onChangeAction: {} | null;
     onFocusAction: {} | null;
     onBlurAction: {} | null;
+    onEnterKeyAction: {} | null;
     onChangeBehaviour: OnChangeBehaviourEnum;
     onChangeAfter: number | null;
 }
