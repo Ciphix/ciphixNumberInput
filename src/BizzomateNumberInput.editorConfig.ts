@@ -95,6 +95,13 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
         ]);
     }
 
+    if (values.useMaxValue !== true) {
+        hidePropertyIn(defaultProperties, values, "maxValue");
+    }
+    if (values.useMinValue !== true) {
+        hidePropertyIn(defaultProperties, values, "minValue");
+    }
+
     if (values.decimalSeparatorBehavior !== "custom") {
         hidePropertyIn(defaultProperties, values, "allowedDecimalSeparators");
     }

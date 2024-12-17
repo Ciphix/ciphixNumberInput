@@ -32,6 +32,10 @@ export interface BizzomateNumberInputContainerProps {
     integerInput: EditableValue<Big>;
     decimalInput: EditableValue<Big>;
     stringInput: EditableValue<string>;
+    useMaxValue: boolean;
+    maxValue: Big;
+    useMinValue: boolean;
+    minValue: Big;
     placeholder?: DynamicValue<string>;
     readOnlyStle: ReadOnlyStleEnum;
     prefix?: DynamicValue<string>;
@@ -59,6 +63,10 @@ export interface BizzomateNumberInputPreviewProps {
     integerInput: string;
     decimalInput: string;
     stringInput: string;
+    useMaxValue: boolean;
+    maxValue: number | null;
+    useMinValue: boolean;
+    minValue: number | null;
     placeholder: string;
     readOnlyStle: ReadOnlyStleEnum;
     prefix: string;

@@ -95,6 +95,10 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
     const inputMode: inputModeEnum =
         props.inputType === "integer" || props.decimalPrecision === 0 ? "numeric" : "decimal";
 
+    // Set the min/max value if applicable
+    const maxValue: number | undefined = props.useMaxValue === true ? props.maxValue.toNumber() : undefined;
+    const minValue: number | undefined = props.useMinValue === true ? props.minValue.toNumber() : undefined;
+
     // Set numberInput value
     useEffect(() => {
         setNumberValue(getNumberValue(numberInput, props.inputType));
@@ -179,6 +183,8 @@ export default function useSettings(props: BizzomateNumberInputContainerProps): 
         className,
         displayType,
         inputMode,
-        disabled
+        disabled,
+        maxValue,
+        minValue
     };
 }

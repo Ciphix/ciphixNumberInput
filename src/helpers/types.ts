@@ -18,6 +18,8 @@ export interface BizzomateNumberInputSettings {
     displayType?: displayTypeEnum;
     inputMode?: inputModeEnum;
     disabled?: boolean;
+    maxValue?: number;
+    minValue?: number;
 }
 
 export interface sessionLocale {

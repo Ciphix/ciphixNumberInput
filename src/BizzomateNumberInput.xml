@@ -52,6 +52,25 @@
                 </property>
             </propertyGroup>
 
+            <propertyGroup caption="Limits">
+                <property key="useMaxValue" type="boolean" defaultValue="false">
+                    <caption>Set a max value</caption>
+                    <description />
+                </property>
+                <property key="maxValue" type="decimal" defaultValue="0.0">
+                    <caption>Maximum value</caption>
+                    <description>Prevents user from entering a higher value</description>
+                </property>
+                <property key="useMinValue" type="boolean" defaultValue="false">
+                    <caption>Set a min value</caption>
+                    <description />
+                </property>
+                <property key="minValue" type="decimal" defaultValue="0.0">
+                    <caption>Minimum value</caption>
+                    <description>Prevents user from entering a lower value; So don't use positve values here!</description>
+                </property>
+            </propertyGroup>
+
             <propertyGroup caption="Display">
                 <property key="placeholder" type="textTemplate" required="false">
                     <caption>Placeholder</caption>

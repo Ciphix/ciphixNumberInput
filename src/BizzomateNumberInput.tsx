@@ -42,7 +42,9 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
         className,
         displayType,
         inputMode,
-        disabled
+        disabled,
+        maxValue,
+        minValue
     } = useSettings(props);
 
     // Handle user changes to the numeric value
@@ -98,6 +100,16 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
         }
     };
 
+    // Handle min/max value to determine if value is allowed
+    const isAllowed = (values: NumberFormatValues): boolean => {
+        if (values === undefined || values.floatValue === undefined) {
+            return true;
+        }
+        const matchesMin: boolean = minValue ? values.floatValue >= minValue : true;
+        const matchesMax: boolean = maxValue ? values.floatValue <= maxValue : true;
+        return matchesMax && matchesMin;
+    };
+
     // Render the NumericFormat input widget
     return (
         <Fragment>
@@ -121,6 +133,7 @@ export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps):
                 tabIndex={props.tabIndex}
                 inputMode={inputMode}
                 disabled={disabled}
+                isAllowed={minValue || maxValue ? isAllowed : undefined}
             />
             <Alert>{numberInput?.validation}</Alert>
         </Fragment>
