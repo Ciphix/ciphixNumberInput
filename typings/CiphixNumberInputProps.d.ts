@@ -1,5 +1,5 @@
 /**
- * This file was generated from BizzomateNumberInput.xml
+ * This file was generated from CiphixNumberInput.xml
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
@@ -24,7 +24,7 @@ export interface AllowedDecimalSeparatorsPreviewType {
     allowedDecimalSeparator: string;
 }
 
-export interface BizzomateNumberInputContainerProps {
+export interface CiphixNumberInputContainerProps {
     name: string;
     tabIndex?: number;
     id: string;
@@ -56,9 +56,10 @@ export interface BizzomateNumberInputContainerProps {
     onChangeAfter: number;
 }
 
-export interface BizzomateNumberInputPreviewProps {
+export interface CiphixNumberInputPreviewProps {
     readOnly: boolean;
-    renderMode?: "design" | "xray" | "structure";
+    renderMode: "design" | "xray" | "structure";
+    translate: (text: string) => string;
     inputType: InputTypeEnum;
     integerInput: string;
     decimalInput: string;

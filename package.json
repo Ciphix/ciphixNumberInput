@@ -1,9 +1,9 @@
 {
-    "name": "bizzomatenumberinput",
-    "widgetName": "BizzomateNumberInput",
-    "version": "1.5.0",
+    "name": "ciphixnumberinput",
+    "widgetName": "CiphixNumberInput",
+    "version": "1.0.0",
     "description": "Pluggable Mendix Widget based on the react-number-format library. Provides a more user-friendly and customizable input for numeric data.",
-    "copyright": "© Bizzomate BV 2024",
+    "copyright": "© Ciphix.io 2025",
     "author": "Jelle Dekker",
     "engines": {
         "node": ">=16"
@@ -14,7 +14,7 @@
         "mendixHost": "http://localhost:8080",
         "developmentPort": 3000
     },
-    "packagePath": "bizzomate",
+    "packagePath": "ciphix",
     "scripts": {
         "start": "pluggable-widgets-tools start:server",
         "dev": "pluggable-widgets-tools start:web",
@@ -27,12 +27,12 @@
     "devDependencies": {
         "@mendix/pluggable-widgets-tools": "^10.15.0",
         "@types/big.js": "^6.0.2",
-        "react-number-format": "5.4.2",
+        "react-number-format": "5.4.3",
         "tslib": "^2.7.0"
     },
     "dependencies": {
         "classnames": "^2.3.0",
-        "react-number-format": "5.4.2"
+        "react-number-format": "5.4.3"
     },
     "resolutions": {
         "react": "18.2.0",

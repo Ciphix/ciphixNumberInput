@@ -1,4 +1,4 @@
-## BizzomateNumberInput
+## CiphixNumberInput
 Pluggable Mendix Widget based on the react-number-format library. Provides a more user-friendly and customizable input for numeric data.
 
 ## Features
@@ -15,7 +15,7 @@ Pluggable Mendix Widget based on the react-number-format library. Provides a mor
 * Or let the widget use the Mendix language settings and allow both "," and "." from the user as input
 
 ## Issues, suggestions and feature requests
-[\[link to GitHub issues\]](https://github.com/bizzomate/bizzomateNumberInput/issues)
+[\[link to GitHub issues\]](https://github.com/ciphix/ciphixNumberInput/issues)
 
 ## Development and contribution
 

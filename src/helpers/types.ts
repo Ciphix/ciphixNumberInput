@@ -3,7 +3,7 @@ import { EditableValue } from "mendix";
 export type displayTypeEnum = "input" | "text";
 export type inputModeEnum = "numeric" | "decimal";
 
-export interface BizzomateNumberInputSettings {
+export interface CiphixNumberInputSettings {
     numberInput: EditableValue;
     numberValue?: string | number;
     placeholderValue?: string;

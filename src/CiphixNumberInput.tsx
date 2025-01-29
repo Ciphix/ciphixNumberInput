@@ -1,7 +1,7 @@
 import { ReactElement, createElement, useState, useRef, Fragment, KeyboardEvent } from "react";
 import { Big } from "big.js";
 import { NumberFormatValues, NumericFormat, SourceInfo } from "react-number-format";
-import { BizzomateNumberInputContainerProps, InputTypeEnum } from "../typings/BizzomateNumberInputProps";
+import { CiphixNumberInputContainerProps, InputTypeEnum } from "../typings/CiphixNumberInputProps";
 import { Alert } from "./components/Alert";
 import useSettings from "./hooks/useSettings";
 
@@ -25,7 +25,7 @@ const getResult = (values: NumberFormatValues, inputType: InputTypeEnum): string
     }
 };
 
-export function BizzomateNumberInput(props: BizzomateNumberInputContainerProps): ReactElement {
+export function CiphixNumberInput(props: CiphixNumberInputContainerProps): ReactElement {
     const widgetRef = useRef<inputRef>({ isChanged: false, newValue: undefined });
     const [timeOutId, setTimeOutId] = useState<number | undefined>();
     const {

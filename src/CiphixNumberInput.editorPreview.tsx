@@ -1,7 +1,7 @@
 import { ReactElement, createElement } from "react";
-import { BizzomateNumberInputPreviewProps } from "../typings/BizzomateNumberInputProps";
+import { CiphixNumberInputPreviewProps } from "../typings/CiphixNumberInputProps";
 
-export function preview(props: BizzomateNumberInputPreviewProps): ReactElement {
+export function preview(props: CiphixNumberInputPreviewProps): ReactElement {
     let valueString = "";
 
     if (props.prefix) {
@@ -25,8 +25,4 @@ export function preview(props: BizzomateNumberInputPreviewProps): ReactElement {
     ) : (
         <input value={valueString} className="form-control" readOnly={props.readOnly} />
     );
-}
-
-export function getPreviewCss(): string {
-    return require("./ui/BizzomateNumberInput.css");
 }

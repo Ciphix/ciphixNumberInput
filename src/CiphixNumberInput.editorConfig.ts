@@ -1,4 +1,4 @@
-import { BizzomateNumberInputPreviewProps } from "../typings/BizzomateNumberInputProps";
+import { CiphixNumberInputPreviewProps } from "../typings/CiphixNumberInputProps";
 import { Properties, hidePropertiesIn, hidePropertyIn } from "@mendix/pluggable-widgets-tools";
 
 export type Platform = "web" | "desktop";
@@ -78,7 +78,7 @@ export type PreviewProps =
     | SelectableProps
     | DatasourceProps;
 
-export function getProperties(values: BizzomateNumberInputPreviewProps, defaultProperties: Properties): Properties {
+export function getProperties(values: CiphixNumberInputPreviewProps, defaultProperties: Properties): Properties {
     if (values.inputType === "string") {
         hidePropertiesIn(defaultProperties, values, ["decimalInput", "integerInput"]);
     } else if (values.inputType === "decimal") {
@@ -155,7 +155,7 @@ export function getProperties(values: BizzomateNumberInputPreviewProps, defaultP
      return errors;
  }*/
 
-export function getPreview(values: BizzomateNumberInputPreviewProps, isDarkMode: boolean): PreviewProps {
+export function getPreview(values: CiphixNumberInputPreviewProps, isDarkMode: boolean): PreviewProps {
     // Customize your pluggable widget appearance for Studio Pro.
     return {
         type: "Container",

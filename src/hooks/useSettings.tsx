@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { EditableValue } from "mendix";
 import {
     AllowedDecimalSeparatorsType,
-    BizzomateNumberInputContainerProps,
+    CiphixNumberInputContainerProps,
     DecimalSeparatorBehaviorEnum,
     InputTypeEnum
-} from "../../typings/BizzomateNumberInputProps";
+} from "../../typings/CiphixNumberInputProps";
 
-import { BizzomateNumberInputSettings, displayTypeEnum, inputModeEnum, sessionLocale } from "../helpers/types";
+import { CiphixNumberInputSettings, displayTypeEnum, inputModeEnum, sessionLocale } from "../helpers/types";
 
 // Parse the Mendix attribute value to the correct value for the NumbericFormat input
 const getNumberValue = (input: EditableValue, inputType: InputTypeEnum): string | number => {
@@ -61,7 +61,7 @@ const getGroupingSeparator = (useCustomSeparators: boolean, thousandSeparatorVal
     }
 };
 
-export default function useSettings(props: BizzomateNumberInputContainerProps): BizzomateNumberInputSettings {
+export default function useSettings(props: CiphixNumberInputContainerProps): CiphixNumberInputSettings {
     const [numberValue, setNumberValue] = useState<string | number>();
     const [placeholderValue, setPlaceholderValue] = useState<string>();
     const [decimalScale, setDecimalScale] = useState<number>();
