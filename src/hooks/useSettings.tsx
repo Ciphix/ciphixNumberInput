@@ -131,8 +131,12 @@ export default function useSettings(props: CiphixNumberInputContainerProps): Cip
 
     // Get the thousands separator
     useEffect(() => {
-        setThousandSeparatorValue(getGroupingSeparator(props.customSeparators, props.thousandSeparator?.value));
-    }, [props.customSeparators, props.thousandSeparator?.value]);
+        if (props.groupDigits) {
+            setThousandSeparatorValue(getGroupingSeparator(props.customSeparators, props.thousandSeparator?.value));
+        } else {
+            setThousandSeparatorValue(undefined);
+        }
+    }, [props.customSeparators, props.groupDigits, props.thousandSeparator?.value]);
 
     // Get the prefix
     useEffect(() => {

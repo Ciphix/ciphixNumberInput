@@ -109,9 +109,7 @@
                 </property>
                 <property key="customSeparators" type="boolean" defaultValue="false">
                     <caption>Custom separators</caption>
-                    <description>
-                        Define decimal/thousand separator, instead of the Mendix language settings
-                    </description>
+                    <description>Define decimal/thousand separator, instead of the Mendix language settings</description>
                 </property>
             </propertyGroup>
 

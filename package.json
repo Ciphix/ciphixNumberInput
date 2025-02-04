@@ -1,7 +1,7 @@
 {
     "name": "ciphixnumberinput",
     "widgetName": "CiphixNumberInput",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Pluggable Mendix Widget based on the react-number-format library. Provides a more user-friendly and customizable input for numeric data.",
     "copyright": "© Ciphix.io 2025",
     "author": "Jelle Dekker",
